@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Lista_de_tarefas.Model;
+using Microsoft.EntityFrameworkCore;
 
-namespace Lista_de_tarefas.Controllers
+namespace Lista_de_tarefas.Data
 {
     public class AppDbContext : DbContext
     {

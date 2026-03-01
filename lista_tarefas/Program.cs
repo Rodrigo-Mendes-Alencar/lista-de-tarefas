@@ -1,5 +1,4 @@
-
-using Lista_de_tarefas.Controllers;
+using Lista_de_tarefas.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Lista_de_tarefas
