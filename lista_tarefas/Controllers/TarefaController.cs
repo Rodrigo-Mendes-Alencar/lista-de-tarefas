@@ -6,7 +6,7 @@ namespace Lista_de_tarefas.Controllers
 {
     [ApiController]
     [Route("Api/Tarefas")]
-    public class TarefaController : Controller
+    public class TarefaController : ControllerBase
     {
         private readonly AppDbContext _context;
         public TarefaController(AppDbContext context)
