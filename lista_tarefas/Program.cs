@@ -12,8 +12,6 @@ namespace Lista_de_tarefas
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
             // Conection inMemory
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseInMemoryDatabase(builder.Configuration.GetConnectionString("MeuBd")));

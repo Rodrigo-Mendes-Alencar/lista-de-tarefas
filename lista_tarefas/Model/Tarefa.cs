@@ -4,16 +4,17 @@ namespace Lista_de_tarefas.Model
     public class Tarefa
     {
         public int Id { get; private set; }
-        public string Nome { get; private set; }
-        public DateOnly DataConclusao { get; private set; }
-        public bool Concluida { get; private set; }
-        public DateOnly DataCriacao { get; private set; }
-        public string Mensagem { get; private set; }
+        public string Nome { get;  set; }
+        public DateTime? DataConclusao { get; set; } = null;
+        public DateTime DataEstimada { get;  set; }
+        public bool Concluida { get;  set; }
+        public DateTime DataCriacao { get;set; }
+        public string Mensagem { get; set; }
 
-        public Tarefa(string nome, DateOnly dataConclusao, bool concluida, DateOnly dataCriacao, string mensagem)
+        public Tarefa(string nome, DateTime dataEstimada, bool concluida, DateTime dataCriacao, string mensagem)
         {
             Nome = nome;
-            DataConclusao = dataConclusao;
+            DataEstimada = dataEstimada;
             Concluida = concluida;
             DataCriacao = dataCriacao;
             Mensagem = mensagem;
