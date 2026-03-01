@@ -1,4 +1,7 @@
 
+using Lista_de_tarefas.Controllers;
+using Microsoft.EntityFrameworkCore;
+
 namespace Lista_de_tarefas
 {
     public class Program
@@ -12,13 +15,21 @@ namespace Lista_de_tarefas
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+            // Conection inMemory
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseInMemoryDatabase(builder.Configuration.GetConnectionString("MeuBd")));
+
+            //add swagger
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configure the HTTP request .
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
