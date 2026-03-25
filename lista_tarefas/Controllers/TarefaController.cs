@@ -1,6 +1,7 @@
 ﻿using Lista_de_tarefas.Data;
 using Lista_de_tarefas.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lista_de_tarefas.Controllers
 {
@@ -15,7 +16,7 @@ namespace Lista_de_tarefas.Controllers
         }
 
         [HttpPost]
-        public IActionResult AdicionarTarefa(ViewModelTarefa viewtarefa)
+        public async Task<IActionResult> AdicionarTarefaAsync(ViewModelTarefa viewtarefa)
         {
             if (viewtarefa.MensagemConclusao == null || viewtarefa.MensagemConclusao == "string")
             {
@@ -32,13 +33,13 @@ namespace Lista_de_tarefas.Controllers
             var tarefa = new Tarefa(viewtarefa.Nome, viewtarefa.DataEstimada, false, DateTime.Now, viewtarefa.MensagemConclusao);
 
             _context.Tarefas.Add(tarefa);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok(tarefa);
         }
         [HttpPut("Concluir/{id}")]
-        public IActionResult ConcluirTarefa(int id)
+        public async Task<IActionResult> ConcluirTarefaAsync(int id)
         {
-            var tarefa = _context.Tarefas.Find(id);
+            var tarefa = await _context.Tarefas.FindAsync(id);
             if (tarefa == null)
             {
                 return NotFound();
@@ -53,14 +54,14 @@ namespace Lista_de_tarefas.Controllers
             }
             tarefa.Concluida = true;
             tarefa.DataConclusao = DateTime.Now;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok(tarefa.Mensagem);
         }
 
         [HttpPut("Editar/{id}")]
-        public IActionResult AtualizarTarefa(int id, [FromBody] ViewModelTarefa viewtarefa)
+        public async Task<IActionResult> AtualizarTarefaAsync(int id, [FromBody] ViewModelTarefa viewtarefa)
         {
-            var tarefa = _context.Tarefas.Find(id);
+            var tarefa =  await _context.Tarefas.FindAsync(id);
             if (tarefa == null)
             {
                 return NotFound();
@@ -80,49 +81,49 @@ namespace Lista_de_tarefas.Controllers
             tarefa.Nome = viewtarefa.Nome;
             tarefa.DataEstimada = viewtarefa.DataEstimada;
             tarefa.Mensagem = viewtarefa.MensagemConclusao;
-            _context.SaveChanges();
+             await _context.SaveChangesAsync();
             return Ok(tarefa);
         }
 
         [HttpGet("Todas")]
-        public IActionResult ListarTarefas()
+        public async Task<IActionResult> ListarTarefasAsync()
         {
-            var tarefas = _context.Tarefas.ToList();
+            var tarefas = await _context.Tarefas.ToListAsync();
             return Ok(tarefas);
         }
 
         [HttpGet("Pendentes/NaoVencida")]
-        public IActionResult ListarTarefasPendentes()
+        public async Task<IActionResult> ListarTarefasPendentesAsync()
         {
             var pendente = _context.Tarefas.Where(t => t.Concluida == false);
-            var noPrazo = pendente.Where(t => t.DataEstimada >= DateTime.Now).ToList();
+            var noPrazo =  await pendente.Where(t => t.DataEstimada >= DateTime.Now).ToListAsync();
             return Ok(noPrazo);
         }
 
         [HttpGet("Atrasadas/Pendente")]
-        public IActionResult ListarTarefasAtrasadas()
+        public async Task<IActionResult> ListarTarefasAtrasadasAsync()
         {
             var pendente = _context.Tarefas.Where(t => t.Concluida == false);
-            var atrasada = pendente.Where(t => t.DataEstimada < DateTime.Now).ToList();
+            var atrasada = await pendente.Where(t => t.DataEstimada < DateTime.Now).ToListAsync();
             return Ok(atrasada);
         }
 
         [HttpGet("Concluidas")]
-        public IActionResult ListarTarefasConcluidas()
+        public async Task<IActionResult> ListarTarefasConcluidasAsync()
         {
-            var concluida = _context.Tarefas.Where(t => t.Concluida == true).ToList();
+            var concluida = await _context.Tarefas.Where(t => t.Concluida == true).ToListAsync();
             return Ok(concluida);
         }
 
         [HttpDelete("Excluir/{id}")]
-        public IActionResult Delete(int id) 
+        public async Task<IActionResult> DeleteAsync(int id) 
         {
-            if (_context.Tarefas.Find(id) == null)
+            if ( await _context.Tarefas.FindAsync(id) == null)
             {
                 return NotFound();
             }
             _context.Tarefas.Remove(_context.Tarefas.Find(id));
-            _context.SaveChanges();    
+            await _context.SaveChangesAsync();    
             return Ok();
         }
 
