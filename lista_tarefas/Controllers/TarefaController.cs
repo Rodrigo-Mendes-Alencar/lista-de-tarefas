@@ -118,11 +118,12 @@ namespace Lista_de_tarefas.Controllers
         [HttpDelete("Excluir/{id}")]
         public async Task<IActionResult> DeleteAsync(int id) 
         {
-            if ( await _context.Tarefas.FindAsync(id) == null)
+            var tarefa = await _context.Tarefas.FindAsync(id);
+            if ( tarefa == null)
             {
                 return NotFound();
             }
-            _context.Tarefas.Remove(_context.Tarefas.Find(id));
+            _context.Tarefas.Remove(tarefa);
             await _context.SaveChangesAsync();    
             return Ok();
         }

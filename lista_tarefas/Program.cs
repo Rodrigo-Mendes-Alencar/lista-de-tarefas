@@ -12,9 +12,10 @@ namespace Lista_de_tarefas
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Conection inMemory
+            // Conection SQL server
             builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase(builder.Configuration.GetConnectionString("MeuBd")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
             //add swagger
             builder.Services.AddEndpointsApiExplorer();

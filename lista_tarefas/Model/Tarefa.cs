@@ -5,7 +5,7 @@ namespace Lista_de_tarefas.Model
     {
         public int Id { get; private set; }
         public string Nome { get;  set; }
-        public DateTime? DataConclusao { get; set; } = null;
+        public DateTime? DataConclusao { get; set; } 
         public DateTime DataEstimada { get;  set; }
         public bool Concluida { get;  set; }
         public DateTime DataCriacao { get;set; }
@@ -19,6 +19,7 @@ namespace Lista_de_tarefas.Model
             Concluida = concluida;
             DataCriacao = dataCriacao;
             Mensagem = mensagem;
+            DataConclusao = null;
         }
         public Tarefa()
         {
